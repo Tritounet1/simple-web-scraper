@@ -2,9 +2,8 @@ import { Input, Stack } from "@chakra-ui/react"
 import { Button } from "./components/ui/button"
 import { RiArrowRightLine } from "react-icons/ri"
 import { useState } from "react"
-import Navigation from "./Navigation"
 
-const Demo = () => {
+const App = () => {
 
   const[loading, setLoading] = useState(false)
   const[file, setFile] = useState("")
@@ -63,7 +62,6 @@ const Demo = () => {
   
   return (
     <>
-      <Navigation />
       <Stack padding={"5%"} gap="4">
         <Input width={"30%"} placeholder="url" variant="flushed" onChange={e => setUrl(e.target.value)}/>
         <Button width={"8%"} colorPalette="teal" variant="outline" onClick={download}>
@@ -72,15 +70,6 @@ const Demo = () => {
         {confirmButton && loading && <Button width={"8%"} loading>Download</Button>}
         {file != "" && <Button width={"8%"} onClick={handleDownload}>Download</Button>}
       </Stack>
-    </>
-  )
-}
-
-function App() {
-
-  return (
-    <>
-      <Demo />
     </>
   )
 }

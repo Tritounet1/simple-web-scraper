@@ -26,10 +26,8 @@ const Navigation = () => {
             </DrawerHeader>
             <DrawerBody>
                 <Stack padding={"5%"} gap="8">
-                <a href="#">Home</a>
-                <a href="#">Details</a>
-                <a href="#">Store</a>
-                <a href="#">Contact</a>
+                    <a href="/">Home</a>
+                    <a href="/dashboard">Dashboard</a>
                 </Stack>
             </DrawerBody>
             <DrawerFooter>

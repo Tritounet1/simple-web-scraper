@@ -17,5 +17,9 @@ def save_request(url, status_code, scraper_name):
     )
     print(response)
 
+def get_requests():
+    response = supabase.table("requests").select("*").execute()
+    return response
+
 def sanitize_filename(filename):
     return re.sub(r'[\/:*?"<>|&=]', '_', filename)

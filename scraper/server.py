@@ -4,7 +4,7 @@ from content_scraper import content_scraper
 import os
 from urllib.parse import unquote
 from dotenv import load_dotenv
-from utils import save_request
+from utils import save_request, get_requests
 from flask_cors import CORS
 
 load_dotenv()
@@ -29,6 +29,10 @@ def api():
         "/content_scraper/<url>": "Récupère le contenu d'une page web et le formate en Markdown"
     }})
 
+@app.route('/api/requests')
+def requests():
+    requests = get_requests()
+    return jsonify(requests.data)
 
 @app.route('/api/raw_scraper/<path:url>')
 def raw_scraper_route(url):
