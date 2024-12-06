@@ -1,13 +1,11 @@
-version: '3.8'
-
 services:
-  frontend:    
-    build: 
+  frontend:
+    build:
       context: frontend/
       dockerfile: Dockerfile
     networks:
       - app_network
-    ports: 
+    ports:
       - "49102:5173"
     volumes:
       - ./frontend:/app

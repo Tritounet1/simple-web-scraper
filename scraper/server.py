@@ -1,10 +1,10 @@
-from flask import Flask, jsonify, send_file
+from flask import Flask, jsonify, send_file, request
 from raw_scraper import raw_scraper
 from content_scraper import content_scraper
 import os
 from urllib.parse import unquote
 from dotenv import load_dotenv
-from utils import save_request, get_requests
+from utils import save_request, get_requests, verif_auth
 from flask_cors import CORS
 
 load_dotenv()
@@ -33,6 +33,19 @@ def api():
 def requests():
     requests = get_requests()
     return jsonify(requests.data)
+
+@app.route('/api/login')
+def requests():
+    data = request.get_json()
+    email = data.get('email')
+    password = data.get('password')
+
+    if not email or not password:
+        return jsonify({"error": "Email et mot de passe requis"}), 400
+    if verif_auth(email, password):
+        return jsonify({"message": "Connexion réussie!"}), 200
+    else:
+        return jsonify({"error": "Email ou mot de passe incorrect"}), 401
 
 @app.route('/api/raw_scraper/<path:url>')
 def raw_scraper_route(url):
