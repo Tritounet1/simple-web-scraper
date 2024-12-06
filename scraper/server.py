@@ -14,13 +14,16 @@ CORS(app, resources={r"/api/*": {"origins": "http://51.195.151.110:49102"}})
 port = int(os.getenv("PORT", 5000))
 debug = os.getenv("DEBUG", "False").lower() in ["true", "1", "t"]
 
+
 @app.route('/')
 def home():
     return "Rien à voir ici. Allez à /api/ pour l'API."
 
+
 @app.errorhandler(404)
 def page_not_found(e):
     return "Rien à voir ici. Allez à /api/ pour l'API."
+
 
 @app.route('/api/')
 def api():
@@ -29,14 +32,17 @@ def api():
         "/content_scraper/<url>": "Récupère le contenu d'une page web et le formate en Markdown"
     }})
 
+
 @app.route('/api/requests')
 def requests():
     requests = get_requests()
     return jsonify(requests.data)
 
-@app.route('/api/login')
+
+@app.route('/api/login', methods=['POST'])
 def login():
     data = request.get_json()
+    print(data)
     email = data.get('email')
     password = data.get('password')
 
@@ -46,6 +52,7 @@ def login():
         return jsonify({"message": "Connexion réussie!"}), 200
     else:
         return jsonify({"error": "Email ou mot de passe incorrect"}), 401
+
 
 @app.route('/api/raw_scraper/<path:url>')
 def raw_scraper_route(url):
@@ -63,6 +70,7 @@ def raw_scraper_route(url):
     except Exception as e:
         save_request(decoded_url, str(e), "raw_scraper")
         return jsonify({"error": str(e)}), 500
+
 
 @app.route('/api/content_scraper/<path:url>')
 def content_scraper_route(url):
@@ -83,6 +91,7 @@ def content_scraper_route(url):
         )
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
 
 def start_server():
     app.run(host='0.0.0.0', port=port, debug=debug)
