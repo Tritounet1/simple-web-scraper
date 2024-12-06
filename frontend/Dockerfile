@@ -6,6 +6,8 @@ COPY package*.json ./
 
 RUN npm install
 
+RUN npx @chakra-ui/cli snippet add
+
 COPY . .
 
 EXPOSE 5173

@@ -27,11 +27,12 @@ const Navigation = () => {
             <DrawerBody>
                 <Stack padding={"5%"} gap="8">
                     <a href="/">Home</a>
+                    <a href="/login">Login</a>
                     <a href="/dashboard">Dashboard</a>
                 </Stack>
             </DrawerBody>
-            <DrawerFooter>
-            </DrawerFooter>
+                <DrawerFooter>
+                </DrawerFooter>
             <DrawerCloseTrigger />
             </DrawerContent>
         </DrawerRoot>

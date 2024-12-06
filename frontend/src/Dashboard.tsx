@@ -6,9 +6,11 @@ const Dashboard = () => {
 
     const[requests, setRequests] = useState([])
 
+    const backendUrl = import.meta.env.VITE_APP_BACKEND_URL || "http://localhost:5000";
+
     const getRequests = async () => {
         try {
-            const response = await fetch("http://127.0.0.1:5000/api/requests", { 
+            const response = await fetch(`${backendUrl}/api/requests`, {
               method: "GET",
               mode: "cors",
             });
@@ -21,7 +23,7 @@ const Dashboard = () => {
             setRequests(data)
           } catch (error) {
             console.error("An error occurred while downloading the file:", error);
-          } 
+          }
     }
 
     useEffect(() => {

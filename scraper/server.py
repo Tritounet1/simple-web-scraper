@@ -1,26 +1,29 @@
-from flask import Flask, jsonify, send_file
+from flask import Flask, jsonify, send_file, request
 from raw_scraper import raw_scraper
 from content_scraper import content_scraper
 import os
 from urllib.parse import unquote
 from dotenv import load_dotenv
-from utils import save_request, get_requests
+from utils import save_request, get_requests, verif_auth
 from flask_cors import CORS
 
 load_dotenv()
 app = Flask(__name__)
-CORS(app, resources={r"/api/*": {"origins": "http://localhost:5173"}})
+CORS(app, resources={r"/api/*": {"origins": os.getenv("VITE_APP_FRONTEND_URL", "http://localhost:5173")}})
 
 port = int(os.getenv("PORT", 5000))
 debug = os.getenv("DEBUG", "False").lower() in ["true", "1", "t"]
+
 
 @app.route('/')
 def home():
     return "Rien à voir ici. Allez à /api/ pour l'API."
 
+
 @app.errorhandler(404)
 def page_not_found(e):
     return "Rien à voir ici. Allez à /api/ pour l'API."
+
 
 @app.route('/api/')
 def api():
@@ -29,10 +32,27 @@ def api():
         "/content_scraper/<url>": "Récupère le contenu d'une page web et le formate en Markdown"
     }})
 
+
 @app.route('/api/requests')
 def requests():
     requests = get_requests()
     return jsonify(requests.data)
+
+
+@app.route('/api/login', methods=['POST'])
+def login():
+    data = request.get_json()
+    print(data)
+    email = data.get('email')
+    password = data.get('password')
+
+    if not email or not password:
+        return jsonify({"error": "Email et mot de passe requis"}), 400
+    if verif_auth(email, password):
+        return jsonify({"message": "Connexion réussie!"}), 200
+    else:
+        return jsonify({"error": "Email ou mot de passe incorrect"}), 401
+
 
 @app.route('/api/raw_scraper/<path:url>')
 def raw_scraper_route(url):
@@ -50,6 +70,7 @@ def raw_scraper_route(url):
     except Exception as e:
         save_request(decoded_url, str(e), "raw_scraper")
         return jsonify({"error": str(e)}), 500
+
 
 @app.route('/api/content_scraper/<path:url>')
 def content_scraper_route(url):
@@ -71,8 +92,6 @@ def content_scraper_route(url):
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+
 def start_server():
     app.run(host='0.0.0.0', port=port, debug=debug)
-
-# http://192.168.1.24:5000/api/raw_scraper/https://bnumis.com/as-de-nimes-monnaie-romaine-ou-gauloise/
-# http://192.168.1.24:5000/api/content_scraper/https://bnumis.com/cest-quoi-une-monnaie-romaine-provinciale/

@@ -1,25 +1,36 @@
-version: '3.8'
-
 services:
-  frontend:    
-    build: 
+  frontend:
+    build:
       context: frontend/
       dockerfile: Dockerfile
-    ports: 
-      - "5173:5173"
+    networks:
+      - app_network
+    ports:
+      - "${FRONTEND_PORT}:5173"
     volumes:
       - ./frontend:/app
       - /app/node_modules
     environment:
+      - VITE_APP_FRONTEND_URL=${VITE_APP_FRONTEND_URL}
+      - VITE_APP_BACKEND_URL=${VITE_APP_BACKEND_URL}
       - CHOKIDAR_USEPOLLING=true
 
   scraper:
     build:
       context: ./scraper
       dockerfile: Dockerfile
+    networks:
+      - app_network
     ports:
-      - "5000:5000"
+      - "${BACKEND_PORT}:5000"
     volumes:
       - ./scraper:/app
     environment:
       - FLASK_ENV=development
+      - VITE_APP_FRONTEND_URL=${VITE_APP_FRONTEND_URL}
+      - VITE_APP_BACKEND_URL=${VITE_APP_BACKEND_URL}
+
+networks:
+  app_network:
+    driver: bridge
+    name: my_custom_network
