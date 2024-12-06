@@ -25,7 +25,7 @@ const App = () => {
     }
     setConfirmButton(true);
     setLoading(true);
-    const apiUrl = `http://127.0.0.1:5000/api/content_scraper/${url}`;
+    const apiUrl = `http://51.195.151.110:49103/api/content_scraper/${url}`;
     console.log("Scraping content from:", apiUrl);
     try {
       const response = await fetch(apiUrl, {

@@ -8,7 +8,7 @@ const Dashboard = () => {
 
     const getRequests = async () => {
         try {
-            const response = await fetch("http://127.0.0.1:5000/api/requests", { 
+            const response = await fetch("http://51.195.151.110:49103/api/requests", { 
               method: "GET",
               mode: "cors",
             });
