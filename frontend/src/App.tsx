@@ -14,10 +14,12 @@ const App = () => {
     try {
       new URL(url);
       return true;
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       return false;
     }
   }
+  console.log(import.meta.env);
 
   const download = async () => {
     if (url === "" || !urlIsValid(url)) {
@@ -25,8 +27,8 @@ const App = () => {
     }
     setConfirmButton(true);
     setLoading(true);
-    const apiUrl = `http://51.195.151.110:49103/api/content_scraper/${url}`;
-    console.log("Scraping content from:", apiUrl);
+    const backendUrl = import.meta.env.VITE_APP_BACKEND_URL || "http://localhost:5000";
+    const apiUrl = `${backendUrl}/api/content_scraper/${url}`;
     try {
       const response = await fetch(apiUrl, {
         method: "GET",
@@ -60,15 +62,15 @@ const App = () => {
       return;
     }
     const a = document.createElement("a");
-    a.href = file; 
-    a.download = "downloaded_file"; 
+    a.href = file;
+    a.download = "downloaded_file";
     document.body.appendChild(a);
     a.click();
     window.URL.revokeObjectURL(file);
     setFile("");
     document.body.removeChild(a);
   };
-  
+
   return (
     <>
       <Stack padding={"5%"} gap="4">

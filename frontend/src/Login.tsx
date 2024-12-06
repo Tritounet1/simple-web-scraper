@@ -6,16 +6,14 @@ const Login = () => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
 
+    const backendUrl = import.meta.env.VITE_APP_BACKEND_URL || "http://localhost:5000";
+
     const handleLogin = async () => {
-
-        setLoading(true);
         setError('');
-
         try {
-            const response = await fetch('http://51.195.151.110:49103/api/login', {
+            const response = await fetch(`${backendUrl}/api/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -39,8 +37,6 @@ const Login = () => {
         } catch (error) {
             console.error('Erreur lors de la connexion:', error);
             setError('Erreur lors de la connexion. Veuillez réessayer.');
-        } finally {
-            setLoading(false);
         }
     };
 
@@ -67,7 +63,6 @@ const Login = () => {
                     />
                 </div>
                 <Button onClick={() => {
-                    setLoading(true);
                     handleLogin();
                 }}>
                     Se connecter

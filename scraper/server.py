@@ -9,7 +9,7 @@ from flask_cors import CORS
 
 load_dotenv()
 app = Flask(__name__)
-CORS(app, resources={r"/api/*": {"origins": "http://51.195.151.110:49102"}})
+CORS(app, resources={r"/api/*": {"origins": os.getenv("FRONTEND_URL", "http://localhost:5173")}})
 
 port = int(os.getenv("PORT", 5000))
 debug = os.getenv("DEBUG", "False").lower() in ["true", "1", "t"]
@@ -95,6 +95,3 @@ def content_scraper_route(url):
 
 def start_server():
     app.run(host='0.0.0.0', port=port, debug=debug)
-
-# http://192.168.1.24:5000/api/raw_scraper/https://bnumis.com/as-de-nimes-monnaie-romaine-ou-gauloise/
-# http://192.168.1.24:5000/api/content_scraper/https://bnumis.com/cest-quoi-une-monnaie-romaine-provinciale/
