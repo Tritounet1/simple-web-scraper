@@ -9,10 +9,6 @@ url: str = os.environ.get("SUPABASE_URL")
 key: str = os.environ.get("SUPABASE_KEY")
 supabase: Client = create_client(url, key)
 
-response = supabase.auth.sign_up(
-    {"email": "admin@gmail.com", "password": "admin1234"}
-)
-
 def verif_auth(email, password):
     response = supabase.auth.sign_in(email=email, password=password)
     return response

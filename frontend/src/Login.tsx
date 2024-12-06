@@ -10,10 +10,10 @@ const Login = () => {
     const [error, setError] = useState('');
 
     const handleLogin = async (e) => {
-        e.preventDefault();  // Empêcher le comportement par défaut du formulaire
+        e.preventDefault();
 
-        setLoading(true);  // Afficher un état de chargement
-        setError('');  // Réinitialiser les erreurs
+        setLoading(true);
+        setError('');
 
         try {
             const response = await fetch('http://51.195.151.110:49103/api/login', {
