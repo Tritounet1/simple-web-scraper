@@ -36,9 +36,8 @@ def requests():
 
 @app.route('/api/raw_scraper/<path:url>')
 def raw_scraper_route(url):
+    decoded_url = unquote(url)
     try:
-        decoded_url = unquote(url)
-
         html_content, status_code = raw_scraper(decoded_url)
 
         save_request(decoded_url, status_code, "raw_scraper")
@@ -49,8 +48,8 @@ def raw_scraper_route(url):
             "content": html_content
         })
     except Exception as e:
+        save_request(decoded_url, str(e), "raw_scraper")
         return jsonify({"error": str(e)}), 500
-
 
 @app.route('/api/content_scraper/<path:url>')
 def content_scraper_route(url):

@@ -10,8 +10,17 @@ const App = () => {
   const[url, setUrl] = useState("")
   const[confirmButton, setConfirmButton] = useState(false)
 
+  const urlIsValid = (url: string) => {
+    try {
+      new URL(url);
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+
   const download = async () => {
-    if (url === "") {
+    if (url === "" || !urlIsValid(url)) {
       return;
     }
     setConfirmButton(true);

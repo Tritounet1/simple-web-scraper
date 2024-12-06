@@ -8,7 +8,7 @@ const Dashboard = () => {
 
     const getRequests = async () => {
         try {
-            const response = await fetch("http://127.0.0.1:5000/api/requests", {
+            const response = await fetch("http://127.0.0.1:5000/api/requests", { 
               method: "GET",
               mode: "cors",
             });
@@ -40,14 +40,18 @@ const Dashboard = () => {
                 </Table.Row>
             </Table.Header>
             <Table.Body>
-                {requests.map((request: any) => (
-                <Table.Row key={request.id}>
-                    <Table.Cell>{request.created_at}</Table.Cell>
-                    <Table.Cell>{request.url}</Table.Cell>
+                {requests.map((request: any) => {
+                const created_at = new Date(request.created_at).toLocaleString();
+                const url = request.url; // .slice(0, 50) + "...";
+                return (
+                    <Table.Row key={request.id}>
+                    <Table.Cell>{created_at}</Table.Cell>
+                    <Table.Cell>{url}</Table.Cell>
                     <Table.Cell>{request.scraper_name}</Table.Cell>
                     <Table.Cell>{request.status_code}</Table.Cell>
-                </Table.Row>
-                ))}
+                    </Table.Row>
+                );
+                })}
             </Table.Body>
             </Table.Root>
         </Stack>
