@@ -9,7 +9,7 @@ from flask_cors import CORS
 
 load_dotenv()
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/api/*": {"origins": "http://51.195.151.110:49102"}})
 
 port = int(os.getenv("PORT", 5000))
 debug = os.getenv("DEBUG", "False").lower() in ["true", "1", "t"]

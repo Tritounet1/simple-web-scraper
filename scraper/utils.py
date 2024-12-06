@@ -10,7 +10,9 @@ key: str = os.environ.get("SUPABASE_KEY")
 supabase: Client = create_client(url, key)
 
 def verif_auth(email, password):
-    response = supabase.auth.sign_in(email=email, password=password)
+    response = supabase.auth.sign_up(
+        {"email": email, "password": password}
+    )
     return response
 
 def save_request(url, status_code, scraper_name):
