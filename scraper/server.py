@@ -35,7 +35,7 @@ def requests():
     return jsonify(requests.data)
 
 @app.route('/api/login')
-def requests():
+def login():
     data = request.get_json()
     email = data.get('email')
     password = data.get('password')
