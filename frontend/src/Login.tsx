@@ -1,5 +1,5 @@
 import { Input } from "@chakra-ui/react"
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {Button} from "./components/ui/button.tsx";
 
 const Login = () => {
@@ -9,6 +9,13 @@ const Login = () => {
     const [error, setError] = useState('');
 
     const backendUrl = import.meta.env.VITE_APP_BACKEND_URL || "http://localhost:5000";
+
+    useEffect(() => {
+        const authenticated = localStorage.getItem('authenticated');
+        if (authenticated) {
+            window.location.href = '/home';
+        }
+    }, []);
 
     const handleLogin = async () => {
         setError('');
@@ -21,19 +28,15 @@ const Login = () => {
                 body: JSON.stringify({ email, password }),
             });
 
-            console.log(response);
-
             if (!response.ok) {
                 throw new Error(`Erreur HTTP! Status: ${response.status}`);
             }
 
             const data = await response.json();
-            console.log('Login success:', data);
 
-            /*
-            localStorage.setItem('token', data.token);
-            window.location.href = '/dashboard';
-            */
+            localStorage.setItem('authenticated', 'true');
+            window.location.href = '/home';
+
         } catch (error) {
             console.error('Erreur lors de la connexion:', error);
             setError('Erreur lors de la connexion. Veuillez réessayer.');
