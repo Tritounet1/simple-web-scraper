@@ -5,8 +5,10 @@ services:
     build: 
       context: frontend/
       dockerfile: Dockerfile
+    networks:
+      - app_network
     ports: 
-      - "5173:5173"
+      - "49101:5173"
     volumes:
       - ./frontend:/app
       - /app/node_modules
@@ -17,9 +19,16 @@ services:
     build:
       context: ./scraper
       dockerfile: Dockerfile
+    networks:
+      - app_network
     ports:
-      - "5000:5000"
+      - "49101:5000"
     volumes:
       - ./scraper:/app
     environment:
       - FLASK_ENV=development
+
+networks:
+  app_network:
+    external: true
+    name: my_custom_network
