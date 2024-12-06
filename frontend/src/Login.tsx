@@ -9,8 +9,7 @@ const Login = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
 
-    const handleLogin = async (e) => {
-        e.preventDefault();
+    const handleLogin = async () => {
 
         setLoading(true);
         setError('');
@@ -49,7 +48,6 @@ const Login = () => {
         <div>
             <h2>Se connecter</h2>
             {error && <p style={{ color: 'red' }}>{error}</p>}  {/* Afficher l'erreur si elle existe */}
-            <form onSubmit={handleLogin}>
                 <div>
                     <Input
                         placeholder="Entrer votre email"
@@ -68,10 +66,12 @@ const Login = () => {
                         required
                     />
                 </div>
-                <Button loading={loading}>
+                <Button onClick={() => {
+                    setLoading(true);
+                    handleLogin();
+                }}>
                     Se connecter
                 </Button>
-            </form>
         </div>
     );
 }
