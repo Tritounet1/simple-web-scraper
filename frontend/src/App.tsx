@@ -19,7 +19,6 @@ const App = () => {
       return false;
     }
   }
-  console.log(import.meta.env);
 
   const download = async () => {
     if (url === "" || !urlIsValid(url)) {
