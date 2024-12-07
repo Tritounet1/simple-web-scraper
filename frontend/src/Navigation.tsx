@@ -27,7 +27,9 @@ const Navigation = () => {
             <DrawerBody>
                 <Stack padding={"5%"} gap="8">
                     <a href="/home">Home</a>
+                    <a href="/scraper">Scraper</a>
                     <a href="/dashboard">Dashboard</a>
+                    <a href="/portfolio">Portfolio</a>
                     <a href={"#"} onClick={() => {
                         localStorage.removeItem('authenticated');
                         window.location.href = '/';

@@ -4,7 +4,7 @@ import { RiArrowRightLine } from "react-icons/ri"
 import { useState } from "react"
 import { Code } from "@chakra-ui/react"
 
-const App = () => {
+const Scraper = () => {
 
   const[loading, setLoading] = useState(false)
   const[file, setFile] = useState("")
@@ -12,8 +12,6 @@ const App = () => {
   const[rawHtmlUrl, setRawHtmlUrl] = useState("")
   const[confirmButton, setConfirmButton] = useState(false)
   const[htmlContent, setHtmlContent] = useState("")
-
-
 
   const urlIsValid = (url: string) => {
     try {
@@ -126,4 +124,4 @@ const App = () => {
   )
 }
 
-export default App
+export default Scraper;
