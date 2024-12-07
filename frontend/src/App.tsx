@@ -106,7 +106,8 @@ const App = () => {
   return (
     <>
       <Stack padding={"5%"} gap="4">
-        <h1> Télécharger le contenu d'une page web : </h1>
+        <h1> Scraper : </h1>
+        <h2> Télécharger le contenu d'une page web : </h2>
         <Input width={"30%"} placeholder="url" variant="flushed" onChange={e => setUrl(e.target.value)}/>
         <Button width={"8%"} colorPalette="teal" variant="outline" onClick={download}>
           Confirm <RiArrowRightLine />
@@ -115,7 +116,7 @@ const App = () => {
         {file != "" && <Button width={"8%"} onClick={handleDownload}>Download</Button>}
       </Stack>
       <Stack padding={"5%"} gap="4">
-        <h1> Télécharger l'html d'une page web : </h1>
+        <h2> Télécharger l'html d'une page web : </h2>
         <Input width={"30%"} placeholder="url" variant="flushed" onChange={e => setRawHtmlUrl(e.target.value)}/>
         <Button width={"8%"} colorPalette="teal" variant="outline" onClick={ getHtmlContent }>
           Confirm <RiArrowRightLine />
