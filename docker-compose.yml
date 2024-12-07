@@ -25,6 +25,7 @@ services:
       - "${BACKEND_PORT}:5000"
     volumes:
       - ./scraper:/app
+      - /home/debian/simple-web-scraper:/home/debian/simple-web-scraper
     environment:
       - FLASK_ENV=development
       - VITE_APP_FRONTEND_URL=${VITE_APP_FRONTEND_URL}
