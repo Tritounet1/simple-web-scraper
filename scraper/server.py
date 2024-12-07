@@ -6,12 +6,16 @@ from urllib.parse import unquote
 from dotenv import load_dotenv
 from utils import save_request, get_requests, verif_auth
 from flask_cors import CORS
+import hmac
+import hashlib
+import subprocess
 
 load_dotenv()
 app = Flask(__name__)
 CORS(app, resources={r"/api/*": {"origins": os.getenv("VITE_APP_FRONTEND_URL", "http://localhost:5173")}})
 
 port = int(os.getenv("PORT", 5000))
+GITHUB_SECRET = os.getenv("GITHUB_SECRET")
 debug = os.getenv("DEBUG", "False").lower() in ["true", "1", "t"]
 
 
@@ -92,6 +96,19 @@ def content_scraper_route(url):
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+def verify_signature(payload, signature):
+    computed = 'sha256=' + hmac.new(GITHUB_SECRET.encode(), payload, hashlib.sha256).hexdigest()
+    return hmac.compare_digest(computed, signature)
+
+@app.route('/webhook-handler', methods=['POST'])
+def webhook_handler():
+    signature = request.headers.get('X-Hub-Signature-256')
+    if not verify_signature(request.data, signature):
+        return 'Unauthorized', 403
+    payload = request.json
+    if payload and payload['ref'] == 'refs/heads/main':
+        subprocess.run(["git", "-C", "/home/debian/simple-web-scraper", "pull", "origin", "main"])
+    return 'OK', 200
 
 def start_server():
     app.run(host='0.0.0.0', port=port, debug=debug)
