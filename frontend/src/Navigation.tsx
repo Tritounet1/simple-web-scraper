@@ -28,6 +28,10 @@ const Navigation = () => {
                 <Stack padding={"5%"} gap="8">
                     <a href="/home">Home</a>
                     <a href="/dashboard">Dashboard</a>
+                    <a href={"#"} onClick={() => {
+                        localStorage.removeItem('authenticated');
+                        window.location.href = '/';
+                    }}>Logout</a>
                 </Stack>
             </DrawerBody>
                 <DrawerFooter>

@@ -1,6 +1,8 @@
 import { Input } from "@chakra-ui/react"
-import {useEffect, useState} from "react";
+import { useState} from "react";
 import {Button} from "./components/ui/button.tsx";
+import { SimpleGrid } from "@chakra-ui/react"
+import {Center} from "@chakra-ui/react";
 
 const Login = () => {
 
@@ -9,13 +11,6 @@ const Login = () => {
     const [error, setError] = useState('');
 
     const backendUrl = import.meta.env.VITE_APP_BACKEND_URL || "http://localhost:5000";
-
-    useEffect(() => {
-        const authenticated = localStorage.getItem('authenticated');
-        if (authenticated) {
-            window.location.href = '/home';
-        }
-    }, []);
 
     const handleLogin = async () => {
         setError('');
@@ -31,8 +26,7 @@ const Login = () => {
             if (!response.ok) {
                 throw new Error(`Erreur HTTP! Status: ${response.status}`);
             }
-
-            const data = await response.json();
+            // const data = await response.json();
 
             localStorage.setItem('authenticated', 'true');
             window.location.href = '/home';
@@ -45,9 +39,10 @@ const Login = () => {
 
     return (
         <div>
-            <h2>Se connecter</h2>
-            {error && <p style={{ color: 'red' }}>{error}</p>}  {/* Afficher l'erreur si elle existe */}
-                <div>
+            <Center>
+                <SimpleGrid columns={1} gap="40px">
+                    <h2 style={{textAlign: "center", marginTop: "120%"}}>Se connecter</h2>
+                    {error && <p style={{ color: 'red' }}>{error}</p>}  {/* Afficher l'erreur si elle existe */}
                     <Input
                         placeholder="Entrer votre email"
                         value={email}
@@ -55,8 +50,6 @@ const Login = () => {
                         type="email"
                         required
                     />
-                </div>
-                <div>
                     <Input
                         placeholder="Entrer votre mot de passe"
                         value={password}
@@ -64,12 +57,13 @@ const Login = () => {
                         type="password"
                         required
                     />
-                </div>
-                <Button onClick={() => {
-                    handleLogin();
-                }}>
-                    Se connecter
-                </Button>
+                    <Button onClick={() => {
+                        handleLogin();
+                    }}>
+                        Se connecter
+                    </Button>
+                </SimpleGrid>
+            </Center>
         </div>
     );
 }

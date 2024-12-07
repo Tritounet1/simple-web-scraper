@@ -7,6 +7,7 @@ import Dashboard from './Dashboard.tsx';
 import Login from "./Login.tsx";
 import Navigation from "./Navigation.tsx";
 import ProtectedRoute from "./ProtectedRoute.tsx";
+import RedirectIfAuthenticated from "./RedirectIfAuthenticated.tsx";
 
 const Layout = () => (
     <div>
@@ -18,7 +19,11 @@ const Layout = () => (
 const router = createBrowserRouter([
     {
         path: '/',
-        element: <Login />,
+        element: (
+            <RedirectIfAuthenticated>
+                <Login />
+            </RedirectIfAuthenticated>
+        ),
     },
     {
         path: '/',
