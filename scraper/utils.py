@@ -10,7 +10,7 @@ key: str = os.environ.get("SUPABASE_KEY")
 supabase: Client = create_client(url, key)
 
 def verif_auth(email, password):
-    response = supabase.auth.sign_up(
+    response = supabase.auth.sign_in_with_password(
         {"email": email, "password": password}
     )
     return response

@@ -17,9 +17,7 @@ const Dashboard = () => {
             if (!response.ok) {
               throw new Error(`HTTP error! Status: ${response.status}`);
             }
-            console.log(response)
             const data = await response.json();
-            console.log(data)
             setRequests(data)
           } catch (error) {
             console.error("An error occurred while downloading the file:", error);
