@@ -106,6 +106,7 @@ const App = () => {
   return (
     <>
       <Stack padding={"5%"} gap="4">
+        <h1> Scraper : </h1>
         <h2> Télécharger le contenu d'une page web : </h2>
         <Input width={"30%"} placeholder="url" variant="flushed" onChange={e => setUrl(e.target.value)}/>
         <Button width={"8%"} colorPalette="teal" variant="outline" onClick={download}>
