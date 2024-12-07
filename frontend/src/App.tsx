@@ -2,13 +2,18 @@ import { Input, Stack } from "@chakra-ui/react"
 import { Button } from "./components/ui/button"
 import { RiArrowRightLine } from "react-icons/ri"
 import { useState } from "react"
+import { Code } from "@chakra-ui/react"
 
 const App = () => {
 
   const[loading, setLoading] = useState(false)
   const[file, setFile] = useState("")
   const[url, setUrl] = useState("")
+  const[rawHtmlUrl, setRawHtmlUrl] = useState("")
   const[confirmButton, setConfirmButton] = useState(false)
+  const[htmlContent, setHtmlContent] = useState("")
+
+
 
   const urlIsValid = (url: string) => {
     try {
@@ -70,15 +75,52 @@ const App = () => {
     document.body.removeChild(a);
   };
 
+  const getHtmlContent = async () => {
+    if (rawHtmlUrl === "" || !urlIsValid(rawHtmlUrl)) {
+      console.error("Invalid URL provided");
+      return;
+    }
+
+    const backendUrl = import.meta.env.VITE_APP_BACKEND_URL || "http://localhost:5000";
+    const apiUrl = `${backendUrl}/api/raw_scraper/${encodeURIComponent(rawHtmlUrl)}`;
+
+    try {
+      const response = await fetch(apiUrl, {
+        method: "GET",
+        mode: "cors",
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const data = await response.json(); // Parse la réponse JSON
+      console.log("Received HTML content:", data.content);
+      setHtmlContent(data.content); // Mettre à jour l'état dans React
+    } catch (error) {
+      console.error("An error occurred while fetching HTML content:", error);
+    }
+  };
+
+
   return (
     <>
       <Stack padding={"5%"} gap="4">
+        <h1> Télécharger le contenu d'une page web : </h1>
         <Input width={"30%"} placeholder="url" variant="flushed" onChange={e => setUrl(e.target.value)}/>
         <Button width={"8%"} colorPalette="teal" variant="outline" onClick={download}>
           Confirm <RiArrowRightLine />
         </Button>
         {confirmButton && loading && <Button width={"8%"} loading>Download</Button>}
         {file != "" && <Button width={"8%"} onClick={handleDownload}>Download</Button>}
+      </Stack>
+      <Stack padding={"5%"} gap="4">
+        <h1> Télécharger l'html d'une page web : </h1>
+        <Input width={"30%"} placeholder="url" variant="flushed" onChange={e => setRawHtmlUrl(e.target.value)}/>
+        <Button width={"8%"} colorPalette="teal" variant="outline" onClick={ getHtmlContent }>
+          Confirm <RiArrowRightLine />
+        </Button>
+        { htmlContent != "" && (<Code>{`${htmlContent}`}</Code>) }
       </Stack>
     </>
   )
