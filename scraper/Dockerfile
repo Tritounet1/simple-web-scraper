@@ -1,6 +1,9 @@
 # Étape 1 : Utiliser une image Python de base
 FROM python:3.9-slim
 
+# Installer git et d'autres dépendances nécessaires
+RUN apt-get update && apt-get install -y git && apt-get clean
+
 # Définir le répertoire de travail
 WORKDIR /app
 
